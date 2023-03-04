@@ -11,18 +11,18 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-  builder.Services.AddCors(options =>
-    {
-        options.AddPolicy(name: "Angular",
-            builder =>
-            {
-                builder.WithOrigins("http://localhost:4201")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
-            });
-    });
-    builder.Services.AddSignalR();
+
+    builder.Services.AddCors(options =>
+      {
+          options.AddPolicy(name: "Angular",
+              builder =>
+              {
+                  builder.WithOrigins("http://localhost:4201")
+                      .AllowAnyMethod()
+                      .AllowAnyHeader()
+                      .AllowCredentials();
+              });
+      });
 
     #region Serilog
     builder.Host.UseSerilog((context, services, configuration) => configuration
@@ -31,6 +31,7 @@ try
         .Enrich.FromLogContext());
     #endregion Serilog Config
 
+    builder.Services.AddSignalR();
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -43,7 +44,7 @@ try
         app.UseSwaggerUI();
     }
 
-  
+
     #region Serilog
     app.UseSerilogRequestLogging(configure =>
     {
@@ -58,7 +59,7 @@ try
     {
         diagnosticContext.Set("UserId", "someone");
     });
-        
+
     app.MapGet("/create-customer/{id}", (int id) =>
     {
         Log.Logger.Information("Creating customer id: {id}", id);
@@ -76,7 +77,7 @@ try
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
-    
+
 
     app.Run();
 }
