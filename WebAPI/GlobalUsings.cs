@@ -6,3 +6,4 @@ global using Microsoft.Extensions.Hosting;
 global using System.Threading;
 global using SerilogTimings;
 global using System;
+global using Global;

@@ -1,4 +1,6 @@
 #region Serilog
+using Global;
+
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
@@ -9,6 +11,18 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+  builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: "Angular",
+            builder =>
+            {
+                builder.WithOrigins("http://localhost:4201")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            });
+    });
+    builder.Services.AddSignalR();
 
     #region Serilog
     builder.Host.UseSerilog((context, services, configuration) => configuration
@@ -29,11 +43,14 @@ try
         app.UseSwaggerUI();
     }
 
+  
     #region Serilog
     app.UseSerilogRequestLogging(configure =>
     {
         configure.MessageTemplate = "HTTP {RequestMethod} {RequestPath} ({UserId}) responded {StatusCode} in {Elapsed:0.0000}ms";
     });
+
+    app.UseCors("Angular");
 
     app.MapGet("/ping", () => "pong");
 
@@ -54,10 +71,12 @@ try
         return "Something.";
     });
     #endregion Serilog
+    app.MapHub<MyHub>("/ws");
 
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
+    
 
     app.Run();
 }
