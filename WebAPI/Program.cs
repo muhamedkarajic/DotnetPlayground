@@ -1,6 +1,4 @@
 #region Serilog
-using Global;
-
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()

@@ -11,4 +11,13 @@ public class MyHub : Hub
 
         await Clients.All.SendAsync("updateTotalViews", TotalUsers);
     }
+
+    public override async Task OnDisconnectedAsync(Exception? exception)
+    {
+        TotalUsers--;
+
+        await Clients.All.SendAsync("updateTotalViews", TotalUsers);
+
+        await base.OnDisconnectedAsync(exception);
+    }
 }
