@@ -9,7 +9,8 @@
                 "build",
                 "${workspaceFolder}/WebAPI/WebAPI.csproj",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary",
+                "-r=osx.12-arm64"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -21,7 +22,8 @@
                 "publish",
                 "${workspaceFolder}/WebAPI/WebAPI.csproj",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary",
+                "-r=osx.12-arm64"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -33,7 +35,8 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/WebAPI/WebAPI.csproj"
+                "${workspaceFolder}/WebAPI/WebAPI.csproj",
+                "-r=osx.12-arm64"
             ],
             "problemMatcher": "$msCompile"
         }

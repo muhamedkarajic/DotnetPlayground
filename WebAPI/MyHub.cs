@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.SignalR;
-
-namespace Global;
-
 public class MyHub : Hub
 {
     static Dictionary<string, DateTime> users = new Dictionary<string, DateTime>();
